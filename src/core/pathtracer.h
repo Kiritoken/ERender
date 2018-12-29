@@ -9,6 +9,8 @@
 #include "../mesh/mesh.h"
 #include "aggregate.h"
 #include "../utilis/timer.h"
+#include "../accelerators/bvh.h"
+#include <stack>
 
 class PathTracer{
 public:
@@ -61,8 +63,9 @@ private:
 
     State state;          ///< current state
     Mesh* mesh;          ///< current scene
-    Aggregate* bvh;
+    BVHAccel* bvh;
 
+    std::stack<BVHNode*> selectionHistory;  ///< node selection history
     Timer timer;
 };
 
