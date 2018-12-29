@@ -41,7 +41,7 @@ Viewer::~Viewer() {
 
     //TODO
     // free resources
-    delete renderer;
+
 }
 
 
@@ -133,7 +133,8 @@ void Viewer::update() {
 
     // clear frame
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    //背景色白色
+    glClearColor(1.0,1.0,1.0,0.0);
     // run user renderer
     if (renderer) {
         renderer->render();

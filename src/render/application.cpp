@@ -16,7 +16,7 @@ Application::Application() {
 
 //析构函数
 Application::~Application() {
-    return ;
+    delete mesh;
 }
 
 void Application::init() {
@@ -66,11 +66,10 @@ void Application::render() {
             if (show_coordinates) {
                 draw_coordinates();
             }
-
-
-
-            //DynamicScene 中的各个obejct调用各自的方法  画mesh
-           // scene->render_in_opengl();
+            //画mesh
+            if(mesh){
+                mesh->render_in_opengl();
+            }
            // if (show_hud) draw_hud();
             break;
             //没有break 继续匹配下一个CASE
@@ -188,7 +187,9 @@ void Application::set_projection_matrix() {
 
 
 //TODO 载入obj模型
-void Application::load() {
+void Application::load(PolymeshInfo* polymeshInfo) {
+    //TODO
+    // 默认相机参数配置
     CameraInfo *c=new CameraInfo;
     glm::dvec3 c_pos;
     glm::dvec3 c_dir;
@@ -213,10 +214,9 @@ void Application::load() {
     camera.place(target,acos(c_dir.y),atan2(c_dir.x,c_dir.z),view_distance,min_view_distance,max_view_distance);
     set_scroll_rate();
 
-
-
     //TODO 载入obj模型
-
+    this->polymeshInfo=polymeshInfo;
+    mesh=new Mesh(polymeshInfo);
 }
 
 void Application::init_camera(CameraInfo& cameraInfo,

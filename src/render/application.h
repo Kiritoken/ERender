@@ -9,6 +9,7 @@
 #include "../utilis/misc.h"
 #include "render.h"
 #include "../camera/camera.h"
+#include "../mesh/mesh.h"
 using namespace std;
 
 class Application: public Renderer {
@@ -17,25 +18,27 @@ public:
 
     Application();
 
-    ~Application();
+    ~Application() override;
 
     //初始化
-    void init();
+    void init()override;
 
     //渲染
-    void render();
+    void render() override;
     //改变大小
-    void resize(size_t w, size_t h);
+    void resize(size_t w, size_t h) override;
 
     //IO事件
-    void cursor_event( float x, float y );
-    void scroll_event( float offset_x, float offset_y );
-    void mouse_event( int key, int event, unsigned char mods );
-    void keyboard_event( int key, int event, unsigned char mods  );
+    void cursor_event( float x, float y ) override;
+    void scroll_event( float offset_x, float offset_y ) override;
+    void mouse_event( int key, int event, unsigned char mods ) override;
+    void keyboard_event( int key, int event, unsigned char mods  ) override;
     //载入场景信息
-    void load();
+    void load(PolymeshInfo* polymeshInfo);
 
 private:
+    Mesh* mesh;
+    PolymeshInfo* polymeshInfo;
 //模式
     enum Mode {
         EDIT_MODE,
