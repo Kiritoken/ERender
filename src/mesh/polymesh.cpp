@@ -5,7 +5,7 @@
 
 
 std::ostream& operator<<(std::ostream& os,const PolymeshInfo& polymeshInfo ){
-    return os<<"Vertices: "<<polymeshInfo.vertices.size()<<std::endl
-             <<"Faces: "<<polymeshInfo.polygons.size()<<std::endl
-             <<"Normals: "<<polymeshInfo.normals.size()<<std::endl;
+    return os<<"Vertices:  "<<polymeshInfo.vertices.size()<<std::endl
+             <<"Triangles: "<<polymeshInfo.polygons.size()<<std::endl
+             <<"Normals:   "<<polymeshInfo.normals.size()<<std::endl;
 }

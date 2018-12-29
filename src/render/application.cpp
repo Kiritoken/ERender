@@ -11,12 +11,13 @@
 //构造函数
 Application::Application() {
     //TODO 初始化pathtracer参数
+    pathtracer=new PathTracer();
 }
 
 
 //析构函数
 Application::~Application() {
-    delete mesh;
+    delete pathtracer;
 }
 
 void Application::init() {
@@ -55,6 +56,8 @@ void Application::init() {
     cameraInfo.nClip = 0.01;
     cameraInfo.fClip = 100;
     camera.configure(cameraInfo, screenW, screenH);
+
+
 }
 
 
@@ -76,7 +79,7 @@ void Application::render() {
         case VISUALIZE_MODE:
             if (show_coordinates) draw_coordinates();
         case RENDER_MODE:
-           // pathtracer->update_screen();
+            pathtracer->updateScreen();
             break;
     }
 }
@@ -346,8 +349,8 @@ void Application::keyboard_event(int key, int event, unsigned char mods) {
                         to_edit_mode();
                         break;
                     case 'v': case 'V':
-                       // pathtracer->stop();
-                        //pathtracer->start_visualizing();
+                        pathtracer->stop();
+                        pathtracer->start_visualizing();
                         mode = VISUALIZE_MODE;
                         break;
                     case 's': case 'S':
@@ -405,9 +408,9 @@ void Application::keyboard_event(int key, int event, unsigned char mods) {
                         //构造BVH  转换模式为VISUALIZE pathtracer->upadte 更新
                     case 'v': case 'V':
                         //初始化 pathtracer* 场景 相机设置
-                      //  set_up_pathtracer();
+                        set_up_pathtracer();
                         //BVH
-                      //  pathtracer->start_visualizing();
+                        pathtracer->start_visualizing();
                         //将模式转换为VISUALIZE_MODE
                         mode = VISUALIZE_MODE;
                         break;
@@ -494,6 +497,7 @@ void Application::set_up_pathtracer() {
    // pathtracer->set_camera(&camera);
    // pathtracer->set_scene(scene->get_static_scene());
   //  pathtracer->set_frame_size(screenW, screenH);
+   pathtracer->setMesh(this->mesh);
 
 }
 

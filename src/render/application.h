@@ -10,6 +10,7 @@
 #include "render.h"
 #include "../camera/camera.h"
 #include "../mesh/mesh.h"
+#include "../core/pathtracer.h"
 using namespace std;
 
 class Application: public Renderer {
@@ -37,6 +38,7 @@ public:
     void load(PolymeshInfo* polymeshInfo);
 
 private:
+    PathTracer* pathtracer;
     Mesh* mesh;
     PolymeshInfo* polymeshInfo;
 //模式

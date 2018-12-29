@@ -6,6 +6,7 @@
 #include "../utilis/misc.h"
 using std::min;
 using std::max;
+using namespace misc;
 
 void Camera::configure(const CameraInfo& info, size_t screenW, size_t screenH) {
     //初始化
