@@ -13,14 +13,13 @@
 #include "color.h"
 
 using namespace std;
-using namespace glm;
 
 class BBox {
 public:
 
-    vec3 max;	    ///< min corner of the bounding box 最大点坐标
-    vec3 min;	    ///< max corner of the bounding box 最小点坐标
-    vec3 extent;   ///< extent of the bounding box (min -> max) 向量max-min
+    glm::vec3 max;	    ///< min corner of the bounding box 最大点坐标
+    glm::vec3 min;	    ///< max corner of the bounding box 最小点坐标
+    glm::vec3 extent;   ///< extent of the bounding box (min -> max) 向量max-min
 
     /**
      * Constructor.
@@ -30,8 +29,8 @@ public:
      * 默认构造函数 极端最小 max最小点   min最大点
      */
     BBox() {
-        max = vec3(-INF_D, -INF_D, -INF_D);
-        min = vec3( INF_D,  INF_D,  INF_D);
+        max = glm::vec3(-INF_D, -INF_D, -INF_D);
+        min = glm::vec3( INF_D,  INF_D,  INF_D);
         extent = max - min;
     }
 
@@ -40,7 +39,7 @@ public:
      * Creates a bounding box that includes a single point.
      * 构造只包含一个点的包围盒
      */
-    BBox(const vec3& p) : min(p), max(p) { extent = max - min; }
+    BBox(const glm::vec3& p) : min(p), max(p) { extent = max - min; }
 
     /**
      * Constructor.
@@ -49,7 +48,7 @@ public:
      * \param max the max corner
      * 构造给定两个点构成的包围盒
      */
-    BBox(const vec3& min, const vec3& max) :
+    BBox(const glm::vec3& min, const glm::vec3& max) :
             min(min), max(max) { extent = max - min; }
 
     /**
@@ -59,8 +58,8 @@ public:
      */
     BBox(const double minX, const double minY, const double minZ,
          const double maxX, const double maxY, const double maxZ) {
-        min = vec3(minX, minY, minZ);
-        max = vec3(maxX, maxY, maxZ);
+        min = glm::vec3(minX, minY, minZ);
+        max = glm::vec3(maxX, maxY, maxZ);
         extent = max - min;
     }
 
@@ -93,7 +92,7 @@ public:
      * point.
      * \param p the point to be included
      */
-    void expand(const vec3& p) {
+    void expand(const glm::vec3& p) {
         min.x = std::min(min.x, p.x);
         min.y = std::min(min.y, p.y);
         min.z = std::min(min.z, p.z);
@@ -104,8 +103,8 @@ public:
     }
 
     //返回包围盒的中心坐标
-    vec3 centroid() const {
-        vec3 temp=min+max;
+    glm::vec3 centroid() const {
+        glm:: vec3 temp=min+max;
         temp.x/=2;
         temp.y/=2;
         temp.z/=2;
@@ -181,13 +180,13 @@ public:
      * \return the normalized position in the unit
      * cube, with x,y,z ranging from [0,1]
      */
-    vec3 getUnitcubePosOf(vec3 pos)
+    glm::vec3 getUnitcubePosOf(glm::vec3 pos)
     {
-        vec3 o2pos = pos - min;
+        glm:: vec3 o2pos = pos - min;
         if(extent.x==0&&extent.y==0&&extent.z==0){
-            return vec3();
+            return glm::vec3();
         }else{
-            vec3 normalized_pos = o2pos / extent;
+            glm::vec3 normalized_pos = o2pos / extent;
             return normalized_pos;
         }
     }

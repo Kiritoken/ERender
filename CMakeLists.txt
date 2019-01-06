@@ -15,6 +15,8 @@ find_package(Thrust REQUIRED)
 find_package(GLFW REQUIRED)
 find_package(GLEW REQUIRED)
 
+include_directories("${CUDA_INCLUDE_DIRS}")
+
 #CUDA NVCC SETTINGS
 list(APPEND CUDA_NVCC_FLAGS "-arch=sm_20;-std=c++11;-O2;-DVERBOSE;-D_FORCE_INLINES")
 SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
