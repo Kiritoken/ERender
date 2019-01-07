@@ -34,7 +34,7 @@ int ObjParser::load(const char *filename, PolymeshInfo *polymeshInfo) {
     if (!ret) {
        return 1;
     }
-  //  std::cout<<shapes[0].mesh.num_face_vertices.size()<<std::endl;
+    std::cout<< "Object: "<<shapes.size()<<std::endl;
     // Loop over shapes
     for (size_t s = 0; s < shapes.size(); s++) {
         // Loop over faces(polygon)

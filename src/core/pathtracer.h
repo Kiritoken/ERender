@@ -10,6 +10,10 @@
 #include "aggregate.h"
 #include "../utilis/timer.h"
 #include "../accelerators/bvh.h"
+#include "../accelerators/KmeansBvh.h"
+#include "../accelerators/PeakDensity.h"
+#include "../utilis/image.h"
+#include "../camera/camera.h"
 #include <stack>
 
 class PathTracer{
@@ -40,6 +44,15 @@ public:
      */
     void start_raytracing();
 
+    void set_camera(Camera* camera);
+
+    void set_frame_size(size_t width, size_t height);
+    /**
+     * 画出遍历热度图
+     */
+    void draw_heat_map(int x,int y);
+
+    size_t traverse_pixel(int x,int y);
 private:
     /**
    * Build acceleration structures.
@@ -65,8 +78,17 @@ private:
     Mesh* mesh;          ///< current scene
     BVHAccel* bvh;
 
+    //KmeansBvh//
+    KmeansBvh* kbvh;
+
+    //PeakDensity
+    PeakDensity* peakDensity;
     std::stack<BVHNode*> selectionHistory;  ///< node selection history
     Timer timer;
+
+    //Convert to Image
+    ImageBuffer frameBuffer;       ///< frame buffer
+    Camera* camera;       ///< current camera
 };
 
 

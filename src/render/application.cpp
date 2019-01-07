@@ -381,8 +381,8 @@ void Application::keyboard_event(int key, int event, unsigned char mods) {
                         to_edit_mode();
                         break;
                     case 'r': case 'R':
-                    //    pathtracer->stop();
-                      //  pathtracer->start_raytracing();
+                          pathtracer->stop();
+                          pathtracer->start_raytracing();
                         mode = RENDER_MODE;
                         break;
                         //空格重置相机
@@ -401,8 +401,8 @@ void Application::keyboard_event(int key, int event, unsigned char mods) {
             if (event == EVENT_PRESS) {
                 switch(key) {
                     case 'r': case 'R':
-                        //set_up_pathtracer();
-                      //  pathtracer->start_raytracing();
+                        set_up_pathtracer();
+                        pathtracer->start_raytracing();
                         mode = RENDER_MODE;
                         break;
                         //构造BVH  转换模式为VISUALIZE pathtracer->upadte 更新
@@ -494,9 +494,9 @@ void Application::to_edit_mode() {
 //TODO
 void Application::set_up_pathtracer() {
     if (mode != EDIT_MODE) return;
-   // pathtracer->set_camera(&camera);
+     pathtracer->set_camera(&camera);
    // pathtracer->set_scene(scene->get_static_scene());
-  //  pathtracer->set_frame_size(screenW, screenH);
+    pathtracer->set_frame_size(screenW, screenH);
    pathtracer->setMesh(this->mesh);
 
 }

@@ -11,6 +11,7 @@
 #include "cuda.h"
 #include "cuda_runtime.h"
 #include "color.h"
+#include "ray.h"
 
 using namespace std;
 
@@ -190,6 +191,17 @@ public:
             return normalized_pos;
         }
     }
+
+
+    /**
+ * Ray - bbox intersection.
+ * Intersects ray with bounding box, does not store shading information.
+ * 光线r是否与该包围盒相交
+ * \param r the ray to intersect with
+ * \param t0 lower bound of intersection time
+ * \param t1 upper bound of intersection time
+ */
+    bool intersect(const Ray& r, double& t0, double& t1) const;
 };
 std::ostream& operator<<(std::ostream& os, const BBox& b);
 

@@ -137,3 +137,21 @@ glm::dvec2 Camera::get_screen_pos(glm::dvec3 p) const {
 
     return glm::dvec2(x, y);
 }
+
+
+Ray Camera::generate_ray(double x, double y) const {
+
+    // compute position of the input sensor sample coordinate on the
+    // canonical sensor plane one unit away from the pinhole.
+
+    double sensor_height = 2.0 * tan( radians(vFov/2.0) );
+    double sensor_width = ar * sensor_height;
+
+    double sensor_x = sensor_width  * (x - 0.5);
+    double sensor_y = sensor_height * (y - 0.5);
+
+    glm::vec3 dir(sensor_x, sensor_y, -1);
+    // cout<<"dir(sensor_x, sensor_y, -1);"<<dir<<'\t'<<x<<'\t'<<y<<endl;
+
+    return Ray(pos, c2w * glm::normalize(dir));
+}

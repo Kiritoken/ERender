@@ -56,6 +56,7 @@ BVHAccel::BVHAccel(const std::vector<Primitive *> &_primitives, size_t max_leaf_
     //BVH根节点
     bstack.push(BVHBuildData(bb, 0, primitives.size(), &root));
 
+    splitMethod=SPLIT_SAH;
     switch(splitMethod){
         //改进的SPLIT_MIDDLE  以应对极端现象（左子树 1  右子树很大）
         case SPLIT_MIDDLE:
@@ -347,4 +348,63 @@ BVHAccel::~BVHAccel() {
 
 BBox BVHAccel::get_bbox() const {
     return root->bb;
+}
+
+
+//遍历BVH 返回求交次数
+size_t BVHAccel::intersect(const Ray &ray) const {
+
+    double t0 = ray.min_t;
+    double t1 = ray.max_t;
+
+    size_t count=0;
+    // try early exit
+    if (!root->bb.intersect(ray, t0, t1)) return 0;
+
+    // create traversal stack
+    stack<BVHNode *> tstack;
+
+    // push initial traversal data
+    tstack.push(root);
+
+    // process traversal
+    BVHNode *l, *r;
+    while (!tstack.empty()) {
+
+        // pop traversal data
+        BVHNode *current = tstack.top();
+        tstack.pop();
+
+        // get children
+        l = current->l;
+        r = current->r;
+
+        // if leaf
+        if (!(l || r)) {
+            for (size_t i = 0; i < current->range; ++i) {
+               // if (primitives[current->start + i]->intersect(ray)) return true;
+               count++;
+            }
+        }
+
+        // test bboxes
+        double tl0 = ray.min_t;
+        double tl1 = ray.max_t;
+        double tr0 = ray.min_t;
+        double tr1 = ray.max_t;
+        bool hitL, hitR;
+        hitL = (l != NULL) && l->bb.intersect(ray, tl0, tl1);
+        hitR = (r != NULL) && r->bb.intersect(ray, tr0, tr1);
+        count+=2;
+        // both hit
+        if (hitL && hitR) {
+            tstack.push(l);
+            tstack.push(r);
+        } else if (hitL) {
+            tstack.push(l);
+        } else if (hitR) {
+            tstack.push(r);
+        }
+    }
+    return count;
 }

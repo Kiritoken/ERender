@@ -7,6 +7,7 @@
 #include <iostream>
 #include "../glm/glm.hpp"
 #include "camera_info.h"
+#include "../core/ray.h"
 
 class Camera {
 public:
@@ -64,6 +65,7 @@ public:
     double near_clip() const { return nClip; }
     double far_clip() const { return fClip; }
 
+    Ray generate_ray(double x, double y) const;
 
     // Current position and target point (the point the camera is looking at).
     glm::dvec3 pos, targetPos;

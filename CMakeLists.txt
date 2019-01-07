@@ -43,4 +43,8 @@ add_executable(ERender main.cpp src/viewer/viewer.cpp
                src/camera/camera_info.h src/camera/camera.cpp
                src/camera/camera.h src/utilis/misc.h src/mesh/polymesh.h
                src/obj_parser/obj_parser.cpp src/obj_parser/obj_parser.h src/utilis/timer.h
-               src/mesh/mesh.cpp src/mesh/mesh.h src/mesh/polymesh.cpp src/core/color.cpp src/core/color.h src/core/bbox.cpp src/core/bbox.h src/core/primitive.h src/shape/triangle.cpp src/shape/triangle.h src/core/pathtracer.cpp src/core/pathtracer.h src/core/aggregate.h src/accelerators/bvh.cpp src/accelerators/bvh.h)
+               src/mesh/mesh.cpp src/mesh/mesh.h src/mesh/polymesh.cpp src/core/color.cpp src/core/color.h src/core/bbox.cpp
+               src/core/bbox.h src/core/primitive.h src/shape/triangle.cpp src/shape/triangle.h src/core/pathtracer.cpp src/core/pathtracer.h
+               src/core/aggregate.h src/accelerators/bvh.cpp src/accelerators/bvh.h
+               src/accelerators/KmeansBvh.cpp src/accelerators/KmeansBvh.h
+               src/accelerators/Kmeans.cpp src/accelerators/Kmeans.h src/accelerators/PeakDensity.cpp src/accelerators/PeakDensity.h src/utilis/image.cpp src/utilis/image.h src/core/ray.h)

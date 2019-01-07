@@ -7,6 +7,8 @@
 
 
 #include "../core/aggregate.h"
+#include "../core/ray.h"
+
 enum ConstructMethod { SPLIT_MIDDLE, SPLIT_EQUAL_COUNTS, SPLIT_AAC, SPLIT_SAH};
 
 struct BVHNode {
@@ -59,10 +61,10 @@ public:
      * \param r ray to test intersection with
      * \return true if the given ray intersects with the aggregate,
                false otherwise
-     *//*
-    bool intersect(const Ray& r) const;
+     */
+    size_t intersect(const Ray& r) const;
 
-    *//**
+    /**
      * Ray - Aggregate intersection 2.
      * Check if the given ray intersects with the aggregate (any primitive in
      * the aggregate). If so, the input intersection data is updated to contain
