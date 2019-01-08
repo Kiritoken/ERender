@@ -48,11 +48,15 @@ public:
 
     void set_frame_size(size_t width, size_t height);
     /**
-     * 画出遍历热度图
+     * 画出BVH遍历热度图
      */
     void draw_heat_map(int x,int y);
 
+    void draw_heat_map_kmeansbvh(int x,int y);
+
     size_t traverse_pixel(int x,int y);
+
+    size_t traverse_pixel_kmeansbvh(int x,int y);
 private:
     /**
    * Build acceleration structures.
@@ -77,6 +81,7 @@ private:
     State state;          ///< current state
     Mesh* mesh;          ///< current scene
     BVHAccel* bvh;
+    BVHAccel* bvh2;
 
     //KmeansBvh//
     KmeansBvh* kbvh;

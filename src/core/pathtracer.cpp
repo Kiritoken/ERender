@@ -45,9 +45,11 @@ void PathTracer::build_accel() {
 
     cout<<"开始构建BVH"<<endl;
     timer.start();
-    bvh=new BVHAccel(primitives,SPLIT_SAH);
+    bvh=new BVHAccel(primitives,4,SPLIT_SAH);
     timer.stop();
     cout<<"构建完成,共耗时(s): "<<timer.duration()<<endl;
+
+    bvh2=new BVHAccel(primitives,4,SPLIT_EQUAL_COUNTS);
 
     //test my KmeansBVH
     kbvh=new KmeansBvh(primitives,4);
@@ -201,16 +203,18 @@ void PathTracer::visualize_accel() const {
 
 //画出热度图 HEAT MAP
 void PathTracer::start_raytracing() {
-    state=RENDERING;
+   // state=RENDERING;
     frameBuffer.clear();
     draw_heat_map(frameBuffer.w,frameBuffer.h);
+    draw_heat_map_kmeansbvh(frameBuffer.w,frameBuffer.h);
 }
 
 
 
 void PathTracer::draw_heat_map(int w,int h) {
+    cout<<"输出sah-binned heat map"<<endl;
     ofstream out;
-    out.open("../l2.ppm");
+    out.open("../sah-heat-map.ppm");
     out<<"P3"<<endl<<w<<" "<<h<<endl<<"255"<<endl;
 
 
@@ -219,6 +223,7 @@ void PathTracer::draw_heat_map(int w,int h) {
     for (size_t y = 0; y <h ; ++y) {
         for (size_t x = 0; x < w; x++) {
             size_t s = traverse_pixel(x, y);
+           // cout<<x<<" "<<y<<" "<<s<<endl;
             v.push_back(s);
             if(s>=max)
                 max=s;
@@ -238,6 +243,39 @@ void PathTracer::draw_heat_map(int w,int h) {
 }
 
 
+void PathTracer::draw_heat_map_kmeansbvh(int w, int h) {
+    cout<<"输出kBVH heat map"<<endl;
+    ofstream out;
+    out.open("../k-heat-map.ppm");
+    out<<"P3"<<endl<<w<<" "<<h<<endl<<"255"<<endl;
+
+
+    size_t max=0;
+    vector<size_t > v;
+    for (size_t y = 0; y <h ; ++y) {
+        for (size_t x = 0; x < w; x++) {
+            size_t s = traverse_pixel_kmeansbvh(x, y);
+            //cout<<x<<" "<<y<<" "<<s<<endl;
+            v.push_back(s);
+            if(s>=max)
+                max=s;
+            // frameBuffer.update_heat_map(s,x,y);
+        }
+    }
+
+    for(size_t i=0;i<v.size();++i){
+        float s=float(v[i])/max;
+        glm::vec3 c=(1-s)*glm::vec3(0.48627,0.98824,0.0)+s*glm::vec3(1.0,0.0,0.0);
+        int ir=int(c.x*255.99);
+        int ig=int(c.y*255.99);
+        int ib=int(c.z*255.99);
+        out<<ir<<" "<<ig<<" "<<ib<<endl;
+    }
+    out.close();
+}
+
+
+
 //光线遍历BVH
 size_t PathTracer::traverse_pixel(int x, int y) {
 
@@ -247,5 +285,20 @@ size_t PathTracer::traverse_pixel(int x, int y) {
     Ray r = camera->generate_ray((x + 0.5) / screenW,
                                  (y + 0.5) / screenH);
     size_t res=bvh->intersect(r);
+    return res;
+}
+
+
+
+/*
+ * 光线遍历Kmeans 构造的BVH
+ */
+size_t PathTracer::traverse_pixel_kmeansbvh(int x, int y) {
+    size_t screenW = frameBuffer.w;
+    size_t screenH = frameBuffer.h;
+
+    Ray r = camera->generate_ray((x + 0.5) / screenW,
+                                 (y + 0.5) / screenH);
+    size_t res=bvh2->intersect(r);
     return res;
 }

@@ -31,6 +31,7 @@ class KmeansBvh : public Aggregate{
   
     BBox get_bbox() const;
 
+    size_t intersect(const Ray& r) const;
   
     void draw(const Color& c) const { }
 

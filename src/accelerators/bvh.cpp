@@ -56,7 +56,6 @@ BVHAccel::BVHAccel(const std::vector<Primitive *> &_primitives, size_t max_leaf_
     //BVH根节点
     bstack.push(BVHBuildData(bb, 0, primitives.size(), &root));
 
-    splitMethod=SPLIT_SAH;
     switch(splitMethod){
         //改进的SPLIT_MIDDLE  以应对极端现象（左子树 1  右子树很大）
         case SPLIT_MIDDLE:
@@ -176,7 +175,7 @@ BVHAccel::BVHAccel(const std::vector<Primitive *> &_primitives, size_t max_leaf_
             break;
             //SAH-BUCKET 贪心
         default:
-            std::cout<<"SAH-BUCKET 贪心算法:"<<endl;
+            std::cout<<"SAH-BINNED 算法:"<<endl;
             fflush(stdout);
 
             while (!bstack.empty()) {
@@ -357,9 +356,9 @@ size_t BVHAccel::intersect(const Ray &ray) const {
     double t0 = ray.min_t;
     double t1 = ray.max_t;
 
-    size_t count=0;
+    size_t count=1;
     // try early exit
-    if (!root->bb.intersect(ray, t0, t1)) return 0;
+    if (!root->bb.intersect(ray, t0, t1)) return 1;
 
     // create traversal stack
     stack<BVHNode *> tstack;

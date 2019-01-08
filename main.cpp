@@ -17,7 +17,7 @@ using std::string;
 int main(int argc,char** argv){
 
     //TODO 载入模型信息
-    string filePath="../models/sponza.obj";
+    string filePath="../models/buddha.obj";
     auto polymeshInfo=new PolymeshInfo;
     int ret=ObjParser::load(filePath.c_str(),polymeshInfo);
 

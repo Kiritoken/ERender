@@ -170,7 +170,7 @@ void PeakDensity::calP(){
         }
     }
     timer.stop();
-    cout<<"计算密度共耗时(sec):  "<<timer.duration()<<endl;
+    cout<<"计算密度共耗时(sec):  "<<timer.duration()/10<<endl;
     //打印所有
 //    for(size_t i=0;i<p.size();i++) {
 //        cout << p[i] << " ";
